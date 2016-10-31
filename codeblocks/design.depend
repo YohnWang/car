@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1474466423 source:d:\backup\桌面\cardesign\motor.c
+	<reg51.h>
+
+1475241484 source:d:\backup\桌面\cardesign\sensor.c
+	<reg51.h>
+	"sensor.h"
+	"timer.h"
+
+1475378397 source:d:\backup\桌面\cardesign\main.c
+	<reg51.h>
+	"motor.h"
+	"sensor.h"
+	"timer.h"
+
+1473690374 d:\backup\桌面\cardesign\motor.h
+
+1475137469 d:\backup\桌面\cardesign\sensor.h
+
+1473771860 source:d:\backup\桌面\cardesign\timer.c
+	<reg51.h>
+	"timer.h"
+
+1474127598 d:\backup\桌面\cardesign\timer.h
+
+1476540057 source:d:\backup\桌面\v1.0\cardesign\motor.c
+	<reg51.h>
+
+1477574286 source:d:\backup\桌面\v1.0\cardesign\sensor.c
+	<reg51.h>
+	"sensor.h"
+	"timer.h"
+
+1476800722 d:\backup\桌面\v1.0\cardesign\sensor.h
+
+1476800628 d:\backup\桌面\v1.0\cardesign\timer.h
+
+1476800628 source:d:\backup\桌面\v1.0\cardesign\timer.c
+	<reg51.h>
+	"timer.h"
+	"sensor.h"
+
+1477551485 source:d:\backup\桌面\v1.0\cardesign\main.c
+	<reg51.h>
+	"motor.h"
+	"sensor.h"
+	"timer.h"
+
+1476540057 d:\backup\桌面\v1.0\cardesign\motor.h
+

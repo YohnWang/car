@@ -1,0 +1,772 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/27/2016  21:30:48  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+BL51.EXE OBJ\DEBUG\MAIN.OBJ, OBJ\DEBUG\MOTOR.OBJ, OBJ\DEBUG\SENSOR.OBJ, OBJ\DEBUG\TIMER.OBJ, C:\KEIL\C51\LIB\C51L.LIB TO
+>>  BIN\DEBUG\DESIGN.OMF RAMSIZE (256) XDATA (0X0-0X0FFF) CODE (0X0-0XFFFF)
+
+
+MEMORY MODEL: LARGE
+
+
+INPUT MODULES INCLUDED:
+  OBJ\DEBUG\MAIN.OBJ (MAIN)
+  OBJ\DEBUG\MOTOR.OBJ (MOTOR)
+  OBJ\DEBUG\SENSOR.OBJ (SENSOR)
+  OBJ\DEBUG\TIMER.OBJ (TIMER)
+  C:\KEIL\C51\LIB\C51L.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?IMUL)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?UIDIV)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?SIDIV)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?ULCMP)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?ULSHR)
+  C:\KEIL\C51\LIB\C51L.LIB (?C?LSTXDATA)
+  C:\KEIL\C51\LIB\C51L.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  BIN\DEBUG\DESIGN.OMF (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     0019H     UNIT         ?XD?MAIN
+            XDATA   0019H     0010H     UNIT         _XDATA_GROUP_
+            XDATA   0029H     000AH     UNIT         ?XD?SENSOR
+            XDATA   0033H     0004H     UNIT         ?XD?MOTOR
+            XDATA   0037H     0004H     UNIT         ?XD?TIMER
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     0005H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     000BH     UNIT         ?PR?INIT_MOTOR?MOTOR
+                    0019H     0002H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     02A4H     UNIT         ?PR?RUN?MAIN
+            CODE    02C2H     0114H     UNIT         ?PR?RUN_SWERVE_BLOCK?MAIN
+            CODE    03D6H     00CDH     UNIT         ?C?LIB_CODE
+            CODE    04A3H     00A9H     UNIT         ?PR?INTER0?SENSOR
+            CODE    054CH     0096H     UNIT         ?PR?RUN_SWERVE_SMALL_BLOCK?MAIN
+            CODE    05E2H     008FH     UNIT         ?PR?_SET_VELOCITY?MOTOR
+            CODE    0671H     008CH     UNIT         ?C_C51STARTUP
+            CODE    06FDH     0080H     UNIT         ?PR?MOTOR_DRIVER?MOTOR
+            CODE    077DH     005DH     UNIT         ?PR?MAIN?MAIN
+            CODE    07DAH     005DH     UNIT         ?PR?LEFT_SENSOR?SENSOR
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 2
+
+
+            CODE    0837H     0053H     UNIT         ?C_INITSEG
+            CODE    088AH     0051H     UNIT         ?PR?TIMER?TIMER
+            CODE    08DBH     0042H     UNIT         ?PR?_SLEEP?TIMER
+            CODE    091DH     0036H     UNIT         ?PR?RUN_SWERVE_RIGHT?MAIN
+            CODE    0953H     0034H     UNIT         ?PR?RUN_SWERVE_LEFT?MAIN
+            CODE    0987H     0022H     UNIT         ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+            CODE    09A9H     001EH     UNIT         ?PR?STATE_EDGE?SENSOR
+            CODE    09C7H     000FH     UNIT         ?PR?CLOCK?TIMER
+            CODE    09D6H     000BH     UNIT         ?PR?INITTIMER?TIMER
+            CODE    09E1H     0009H     UNIT         ?PR?SHOULD_SWERVE_LEFT?SENSOR
+            CODE    09EAH     0009H     UNIT         ?PR?SHOULD_SWERVE_RIGHT?SENSOR
+            CODE    09F3H     0009H     UNIT         ?PR?RIGHT_SENSOR?SENSOR
+            CODE    09FCH     0009H     UNIT         ?PR?RIGHT_SENSOR2?SENSOR
+            CODE    0A05H     0009H     UNIT         ?PR?SHOULD_GO_BLOCK?SENSOR
+            CODE    0A0EH     0009H     UNIT         ?PR?HAVE_BLOCK1?SENSOR
+            CODE    0A17H     0007H     UNIT         ?PR?INITINTER0?SENSOR
+            CODE    0A1EH     0006H     UNIT         ?PR?GET_BLACK_LINE_CNT?SENSOR
+
+
+
+OVERLAY MAP OF MODULE:   BIN\DEBUG\DESIGN.OMF (MAIN)
+
+
+SEGMENT                                      XDATA_GROUP
+  +--> CALLED SEGMENT                      START    LENGTH
+----------------------------------------------------------
+?PR?INTER0?SENSOR                          0019H    0004H
+  +--> ?PR?CLOCK?TIMER
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                              -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                              001DH    0001H
+  +--> ?PR?_SET_VELOCITY?MOTOR
+  +--> ?PR?INIT_MOTOR?MOTOR
+  +--> ?PR?INITTIMER?TIMER
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+  +--> ?PR?_SLEEP?TIMER
+  +--> ?PR?INITINTER0?SENSOR
+  +--> ?PR?GET_BLACK_LINE_CNT?SENSOR
+  +--> ?PR?RUN_SWERVE_SMALL_BLOCK?MAIN
+  +--> ?PR?RUN_SWERVE_RIGHT?MAIN
+  +--> ?PR?RUN_SWERVE_LEFT?MAIN
+  +--> ?PR?RUN?MAIN
+  +--> ?PR?RUN_SWERVE_BLOCK?MAIN
+
+?PR?_SLEEP?TIMER                           0021H    0008H
+  +--> ?PR?CLOCK?TIMER
+
+?PR?RUN_SWERVE_SMALL_BLOCK?MAIN            -----    -----
+  +--> ?PR?HAVE_BLOCK1?SENSOR
+  +--> ?PR?_SET_VELOCITY?MOTOR
+  +--> ?PR?_SLEEP?TIMER
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 3
+
+
+  +--> ?PR?SHOULD_GO_BLOCK?SENSOR
+  +--> ?PR?STATE_EDGE?SENSOR
+
+?PR?RUN_SWERVE_RIGHT?MAIN                  -----    -----
+  +--> ?PR?SHOULD_SWERVE_RIGHT?SENSOR
+  +--> ?PR?SHOULD_SWERVE_LEFT?SENSOR
+  +--> ?PR?STATE_EDGE?SENSOR
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+  +--> ?PR?_SET_VELOCITY?MOTOR
+
+?PR?RUN_SWERVE_LEFT?MAIN                   -----    -----
+  +--> ?PR?SHOULD_SWERVE_LEFT?SENSOR
+  +--> ?PR?SHOULD_SWERVE_RIGHT?SENSOR
+  +--> ?PR?_SET_VELOCITY?MOTOR
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+  +--> ?PR?STATE_EDGE?SENSOR
+
+?PR?RUN?MAIN                               -----    -----
+  +--> ?PR?STATE_EDGE?SENSOR
+  +--> ?PR?SHOULD_SWERVE_LEFT?SENSOR
+  +--> ?PR?_SET_VELOCITY?MOTOR
+  +--> ?PR?CLOCK?TIMER
+  +--> ?PR?_SLEEP?TIMER
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+  +--> ?PR?SHOULD_SWERVE_RIGHT?SENSOR
+
+?PR?RUN_SWERVE_BLOCK?MAIN                  -----    -----
+  +--> ?PR?RIGHT_SENSOR?SENSOR
+  +--> ?PR?RIGHT_SENSOR2?SENSOR
+  +--> ?PR?CLOCK?TIMER
+  +--> ?PR?_SET_VELOCITY?MOTOR
+  +--> ?PR?_SLEEP?TIMER
+  +--> ?PR?_SET_FORWARD_OR_BACKWARD?MOTOR
+  +--> ?PR?LEFT_SENSOR?SENSOR
+  +--> ?PR?SHOULD_GO_BLOCK?SENSOR
+  +--> ?PR?SHOULD_SWERVE_RIGHT?SENSOR
+  +--> ?PR?STATE_EDGE?SENSOR
+
+?PR?LEFT_SENSOR?SENSOR                     001EH    0003H
+  +--> ?PR?_SLEEP?TIMER
+
+
+
+SYMBOL TABLE OF MODULE:  BIN\DEBUG\DESIGN.OMF (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  B:00A8H.7       PUBLIC        EA
+  C:077DH         PUBLIC        main
+  D:0089H         PUBLIC        TMOD
+  C:054CH         PUBLIC        run_swerve_small_block
+  C:02C2H         PUBLIC        run_swerve_block
+  C:001EH         PUBLIC        run
+  C:091DH         PUBLIC        run_swerve_right
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 4
+
+
+  C:0953H         PUBLIC        run_swerve_left
+  -------         PROC          RUN
+  -------         DO            
+  X:0000H         SYMBOL        time_right
+  X:0004H         SYMBOL        time_left
+  X:0008H         SYMBOL        time_tmp
+  X:000CH         SYMBOL        flag_right
+  X:000DH         SYMBOL        flag_left
+  X:000EH         SYMBOL        state
+  X:000FH         SYMBOL        v_left
+  X:0010H         SYMBOL        v_right
+  X:0011H         SYMBOL        cnt_left
+  X:0013H         SYMBOL        cnt_right
+  -------         ENDDO         
+  C:001EH         LINE#         9
+  C:001EH         LINE#         10
+  C:001EH         LINE#         20
+  C:0036H         LINE#         21
+  C:0036H         LINE#         22
+  C:0036H         LINE#         23
+  C:003CH         LINE#         24
+  C:0042H         LINE#         25
+  C:0042H         LINE#         26
+  C:0049H         LINE#         27
+  C:004DH         LINE#         28
+  C:004DH         LINE#         29
+  C:0055H         LINE#         30
+  C:0057H         LINE#         31
+  C:0057H         LINE#         32
+  C:005DH         LINE#         34
+  C:0064H         LINE#         35
+  C:006CH         LINE#         36
+  C:006CH         LINE#         37
+  C:007BH         LINE#         38
+  C:0081H         LINE#         39
+  C:0081H         LINE#         40
+  C:0083H         LINE#         41
+  C:0083H         LINE#         42
+  C:0089H         LINE#         44
+  C:0090H         LINE#         45
+  C:0098H         LINE#         46
+  C:0098H         LINE#         47
+  C:00A7H         LINE#         48
+  C:00B0H         LINE#         49
+  C:00B0H         LINE#         50
+  C:00B2H         LINE#         51
+  C:00B2H         LINE#         52
+  C:00B8H         LINE#         53
+  C:00BCH         LINE#         55
+  C:00BEH         LINE#         56
+  C:00BEH         LINE#         57
+  C:00C4H         LINE#         58
+  C:00CBH         LINE#         59
+  C:00CBH         LINE#         61
+  C:00D7H         LINE#         62
+  C:00D7H         LINE#         63
+  C:00DDH         LINE#         64
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 5
+
+
+  C:00E4H         LINE#         65
+  C:0112H         LINE#         66
+  C:0112H         LINE#         67
+  C:0120H         LINE#         68
+  C:0120H         LINE#         69
+  C:0126H         LINE#         70
+  C:012DH         LINE#         71
+  C:015BH         LINE#         72
+  C:015BH         LINE#         76
+  C:0197H         LINE#         77
+  C:0197H         LINE#         78
+  C:01A0H         LINE#         79
+  C:01A7H         LINE#         80
+  C:01D7H         LINE#         81
+  C:01E0H         LINE#         82
+  C:01E7H         LINE#         83
+  C:01E7H         LINE#         85
+  C:0223H         LINE#         86
+  C:0223H         LINE#         87
+  C:022CH         LINE#         88
+  C:0233H         LINE#         89
+  C:0263H         LINE#         90
+  C:026CH         LINE#         91
+  C:0273H         LINE#         92
+  C:0273H         LINE#         95
+  C:0289H         LINE#         96
+  C:0289H         LINE#         97
+  C:028FH         LINE#         98
+  C:029FH         LINE#         99
+  C:02A0H         LINE#         101
+  C:02A0H         LINE#         102
+  C:02A6H         LINE#         103
+  C:02C1H         LINE#         104
+  C:02C1H         LINE#         105
+  -------         ENDPROC       RUN
+  -------         PROC          RUN_SWERVE_LEFT
+  C:0953H         LINE#         107
+  C:0953H         LINE#         108
+  C:0953H         LINE#         111
+  C:0963H         LINE#         112
+  C:0963H         LINE#         115
+  C:096AH         LINE#         116
+  C:0971H         LINE#         117
+  C:097FH         LINE#         119
+  C:097FH         LINE#         120
+  C:0986H         LINE#         121
+  C:0986H         LINE#         127
+  -------         ENDPROC       RUN_SWERVE_LEFT
+  -------         PROC          RUN_SWERVE_RIGHT
+  -------         DO            
+  C:093BH         SYMBOL        here
+  -------         ENDDO         
+  C:091DH         LINE#         129
+  C:091DH         LINE#         130
+  C:091DH         LINE#         131
+  C:0925H         LINE#         132
+  C:0925H         LINE#         133
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 6
+
+
+  C:092BH         LINE#         134
+  C:092BH         LINE#         135
+  C:0933H         LINE#         136
+  C:0933H         LINE#         137
+  C:0933H         LINE#         138
+  C:0933H         LINE#         140
+  C:093BH         LINE#         141
+  C:093BH         LINE#         142
+  C:093BH         LINE#         143
+  C:0942H         LINE#         145
+  C:0949H         LINE#         146
+  C:094BH         LINE#         147
+  C:0952H         LINE#         148
+  C:0952H         LINE#         149
+  -------         ENDPROC       RUN_SWERVE_RIGHT
+  -------         PROC          RUN_SWERVE_BLOCK
+  -------         DO            
+  X:0015H         SYMBOL        time_open
+  -------         ENDDO         
+  C:02C2H         LINE#         150
+  C:02C2H         LINE#         151
+  C:02C2H         LINE#         155
+  C:02D5H         LINE#         156
+  C:02D5H         LINE#         157
+  C:0303H         LINE#         159
+  C:030AH         LINE#         160
+  C:0315H         LINE#         161
+  C:0328H         LINE#         163
+  C:032FH         LINE#         164
+  C:033DH         LINE#         165
+  C:0346H         LINE#         166
+  C:034CH         LINE#         167
+  C:0355H         LINE#         169
+  C:035BH         LINE#         170
+  C:0364H         LINE#         172
+  C:036BH         LINE#         174
+  C:0379H         LINE#         176
+  C:0382H         LINE#         178
+  C:038AH         LINE#         180
+  C:038AH         LINE#         181
+  C:039EH         LINE#         183
+  C:03A7H         LINE#         185
+  C:03B3H         LINE#         187
+  C:03B3H         LINE#         188
+  C:03BAH         LINE#         189
+  C:03C1H         LINE#         190
+  C:03C3H         LINE#         191
+  C:03CAH         LINE#         193
+  C:03CCH         LINE#         213
+  C:03D5H         LINE#         214
+  C:03D5H         LINE#         217
+  -------         ENDPROC       RUN_SWERVE_BLOCK
+  -------         PROC          RUN_SWERVE_SMALL_BLOCK
+  C:054CH         LINE#         218
+  C:054CH         LINE#         219
+  C:054CH         LINE#         220
+  C:0557H         LINE#         221
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 7
+
+
+  C:0557H         LINE#         222
+  C:055EH         LINE#         223
+  C:0569H         LINE#         224
+  C:0571H         LINE#         226
+  C:0578H         LINE#         227
+  C:057EH         LINE#         228
+  C:0587H         LINE#         229
+  C:058EH         LINE#         230
+  C:0596H         LINE#         231
+  C:059FH         LINE#         233
+  C:05A7H         LINE#         235
+  C:05A7H         LINE#         236
+  C:05B3H         LINE#         238
+  C:05BCH         LINE#         240
+  C:05C8H         LINE#         242
+  C:05C8H         LINE#         243
+  C:05CFH         LINE#         244
+  C:05D6H         LINE#         245
+  C:05D8H         LINE#         246
+  C:05DFH         LINE#         254
+  C:05E1H         LINE#         255
+  C:05E1H         LINE#         256
+  -------         ENDPROC       RUN_SWERVE_SMALL_BLOCK
+  -------         PROC          MAIN
+  -------         DO            
+  X:001DH         SYMBOL        line_cnt
+  -------         ENDDO         
+  C:077DH         LINE#         258
+  C:077DH         LINE#         259
+  C:077DH         LINE#         262
+  C:0783H         LINE#         263
+  C:0786H         LINE#         264
+  C:0789H         LINE#         265
+  C:078CH         LINE#         267
+  C:0793H         LINE#         268
+  C:0795H         LINE#         269
+  C:07A0H         LINE#         270
+  C:07A3H         LINE#         271
+  C:07ABH         LINE#         272
+  C:07BBH         LINE#         273
+  C:07BBH         LINE#         274
+  C:07BEH         LINE#         275
+  C:07C1H         LINE#         276
+  C:07C4H         LINE#         277
+  C:07C7H         LINE#         278
+  C:07CAH         LINE#         279
+  C:07CDH         LINE#         280
+  C:07D0H         LINE#         281
+  C:07D2H         LINE#         282
+  C:07D8H         LINE#         283
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+  -------         MODULE        MOTOR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 8
+
+
+  X:0035H         SYMBOL        velocity_left
+  B:00A0H.0       PUBLIC        debug_flag
+  C:0987H         PUBLIC        _set_forward_or_backward
+  B:0090H.4       PUBLIC        motor_right_in1
+  B:0090H.5       PUBLIC        motor_right_in2
+  C:05E2H         PUBLIC        _set_velocity
+  C:06FDH         SYMBOL        motor_driver
+  B:0090H.2       PUBLIC        motor_left_in1
+  B:0090H.3       PUBLIC        motor_left_in2
+  B:0090H.1       PUBLIC        motor_right
+  B:0090H.0       PUBLIC        motor_left
+  B:00A8H.1       PUBLIC        ET0
+  C:000EH         PUBLIC        init_motor
+  D:008CH         PUBLIC        TH0
+  D:008AH         PUBLIC        TL0
+  B:0088H.4       PUBLIC        TR0
+  X:0036H         SYMBOL        velocity_right
+  -------         PROC          INIT_MOTOR
+  C:000EH         LINE#         27
+  C:000EH         LINE#         28
+  C:000EH         LINE#         31
+  C:0011H         LINE#         32
+  C:0014H         LINE#         33
+  C:0016H         LINE#         34
+  C:0018H         LINE#         35
+  -------         ENDPROC       INIT_MOTOR
+  -------         PROC          _SET_FORWARD_OR_BACKWARD
+  D:0007H         SYMBOL        left
+  D:0005H         SYMBOL        right
+  C:0987H         LINE#         79
+  C:0987H         LINE#         80
+  C:0987H         LINE#         81
+  C:098BH         LINE#         82
+  C:098BH         LINE#         83
+  C:098DH         LINE#         84
+  C:098FH         LINE#         85
+  C:0991H         LINE#         86
+  C:0994H         LINE#         87
+  C:0994H         LINE#         88
+  C:0996H         LINE#         89
+  C:0998H         LINE#         90
+  C:0998H         LINE#         92
+  C:0998H         LINE#         94
+  C:0998H         LINE#         96
+  C:099CH         LINE#         97
+  C:099CH         LINE#         98
+  C:099EH         LINE#         99
+  C:09A0H         LINE#         100
+  C:09A1H         LINE#         101
+  C:09A4H         LINE#         102
+  C:09A4H         LINE#         103
+  C:09A6H         LINE#         104
+  C:09A8H         LINE#         105
+  C:09A8H         LINE#         107
+  C:09A8H         LINE#         109
+  C:09A8H         LINE#         110
+  -------         ENDPROC       _SET_FORWARD_OR_BACKWARD
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 9
+
+
+  -------         PROC          _SET_VELOCITY
+  D:0003H         SYMBOL        left
+  D:0002H         SYMBOL        right
+  C:05E2H         LINE#         113
+  C:05E6H         LINE#         114
+  C:05E6H         LINE#         115
+  C:05E9H         LINE#         116
+  C:05E9H         LINE#         117
+  C:05EEH         LINE#         118
+  C:05F3H         LINE#         119
+  C:05F3H         LINE#         120
+  C:05F7H         LINE#         121
+  C:05F7H         LINE#         122
+  C:05FFH         LINE#         123
+  C:060BH         LINE#         124
+  C:0613H         LINE#         125
+  C:062AH         LINE#         126
+  C:0632H         LINE#         127
+  C:0642H         LINE#         128
+  C:064AH         LINE#         129
+  C:0662H         LINE#         131
+  C:0667H         LINE#         133
+  C:0667H         LINE#         134
+  C:066BH         LINE#         135
+  C:066BH         LINE#         136
+  C:0670H         LINE#         137
+  C:0670H         LINE#         138
+  -------         ENDPROC       _SET_VELOCITY
+  -------         PROC          MOTOR_DRIVER
+  -------         DO            
+  X:0033H         SYMBOL        left_times
+  X:0034H         SYMBOL        right_times
+  -------         ENDDO         
+  C:06FDH         LINE#         173
+  C:070EH         LINE#         177
+  C:0711H         LINE#         178
+  C:0714H         LINE#         179
+  C:071AH         LINE#         180
+  C:071EH         LINE#         181
+  C:0729H         LINE#         182
+  C:072BH         LINE#         183
+  C:0736H         LINE#         184
+  C:0738H         LINE#         185
+  C:074DH         LINE#         186
+  C:074DH         LINE#         187
+  C:074FH         LINE#         188
+  C:0751H         LINE#         190
+  C:0751H         LINE#         191
+  C:0753H         LINE#         192
+  C:0753H         LINE#         193
+  C:0768H         LINE#         194
+  C:0768H         LINE#         195
+  C:076AH         LINE#         196
+  C:076CH         LINE#         198
+  C:076CH         LINE#         199
+  C:076EH         LINE#         200
+  C:076EH         LINE#         201
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 10
+
+
+  -------         ENDPROC       MOTOR_DRIVER
+  -------         ENDMOD        MOTOR
+
+  -------         MODULE        SENSOR
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:00A0H         PUBLIC        P2
+  C:09EAH         PUBLIC        should_swerve_right
+  C:09A9H         PUBLIC        state_edge
+  C:09F3H         PUBLIC        right_sensor
+  C:09E1H         PUBLIC        should_swerve_left
+  C:07DAH         PUBLIC        left_sensor
+  X:0032H         SYMBOL        BLACK_LINE_CNT
+  C:0A05H         PUBLIC        should_go_block
+  C:0A0EH         PUBLIC        have_block1
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:0080H.1       PUBLIC        sensor1
+  B:0080H.2       PUBLIC        sensor2
+  B:0080H.3       PUBLIC        sensor3
+  B:0080H.4       PUBLIC        sensor4
+  C:09FCH         PUBLIC        right_sensor2
+  B:0080H.5       PUBLIC        sensor5
+  B:0080H.6       PUBLIC        sensor6
+  C:0A1EH         PUBLIC        get_black_line_cnt
+  C:04A3H         SYMBOL        inter0
+  B:0080H.7       PUBLIC        sensor7
+  B:00A0H.7       PUBLIC        sensor8
+  B:00A0H.6       PUBLIC        sensor9
+  B:00B8H.0       PUBLIC        PX0
+  C:0A17H         PUBLIC        initInter0
+  -------         PROC          STATE_EDGE
+  C:09A9H         LINE#         15
+  C:09A9H         LINE#         16
+  C:09A9H         LINE#         17
+  C:09AFH         LINE#         18
+  C:09B2H         LINE#         19
+  C:09B8H         LINE#         20
+  C:09BBH         LINE#         21
+  C:09C1H         LINE#         22
+  C:09C4H         LINE#         24
+  C:09C6H         LINE#         25
+  -------         ENDPROC       STATE_EDGE
+  -------         PROC          SHOULD_SWERVE_LEFT
+  C:09E1H         LINE#         27
+  C:09E1H         LINE#         28
+  C:09E1H         LINE#         29
+  C:09E4H         LINE#         30
+  C:09E7H         LINE#         32
+  C:09E9H         LINE#         33
+  -------         ENDPROC       SHOULD_SWERVE_LEFT
+  -------         PROC          SHOULD_SWERVE_RIGHT
+  C:09EAH         LINE#         35
+  C:09EAH         LINE#         36
+  C:09EAH         LINE#         37
+  C:09EDH         LINE#         38
+  C:09F0H         LINE#         40
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 11
+
+
+  C:09F2H         LINE#         41
+  -------         ENDPROC       SHOULD_SWERVE_RIGHT
+  -------         PROC          RIGHT_SENSOR
+  C:09F3H         LINE#         56
+  C:09F3H         LINE#         57
+  C:09F3H         LINE#         58
+  C:09F6H         LINE#         59
+  C:09F9H         LINE#         61
+  C:09FBH         LINE#         62
+  -------         ENDPROC       RIGHT_SENSOR
+  -------         PROC          RIGHT_SENSOR2
+  C:09FCH         LINE#         63
+  C:09FCH         LINE#         64
+  C:09FCH         LINE#         65
+  C:09FFH         LINE#         66
+  C:0A02H         LINE#         68
+  C:0A04H         LINE#         69
+  -------         ENDPROC       RIGHT_SENSOR2
+  -------         PROC          LEFT_SENSOR
+  -------         DO            
+  X:001EH         SYMBOL        i
+  X:001FH         SYMBOL        cnt
+  X:0020H         SYMBOL        max
+  -------         ENDDO         
+  C:07DAH         LINE#         71
+  C:07DAH         LINE#         72
+  C:07DAH         LINE#         84
+  C:07E1H         LINE#         85
+  C:07E5H         LINE#         86
+  C:07E5H         LINE#         87
+  C:07E8H         LINE#         88
+  C:07F0H         LINE#         90
+  C:07F5H         LINE#         91
+  C:080AH         LINE#         92
+  C:080DH         LINE#         93
+  C:0818H         LINE#         94
+  C:0826H         LINE#         95
+  C:0831H         LINE#         96
+  C:0834H         LINE#         98
+  C:0836H         LINE#         100
+  -------         ENDPROC       LEFT_SENSOR
+  -------         PROC          SHOULD_GO_BLOCK
+  C:0A05H         LINE#         102
+  C:0A05H         LINE#         103
+  C:0A05H         LINE#         104
+  C:0A08H         LINE#         105
+  C:0A0BH         LINE#         107
+  C:0A0DH         LINE#         108
+  -------         ENDPROC       SHOULD_GO_BLOCK
+  -------         PROC          HAVE_BLOCK1
+  C:0A0EH         LINE#         110
+  C:0A0EH         LINE#         111
+  C:0A0EH         LINE#         112
+  C:0A11H         LINE#         113
+  C:0A14H         LINE#         115
+  C:0A16H         LINE#         116
+  -------         ENDPROC       HAVE_BLOCK1
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 12
+
+
+  -------         PROC          INITINTER0
+  C:0A17H         LINE#         137
+  C:0A17H         LINE#         138
+  C:0A17H         LINE#         139
+  C:0A19H         LINE#         140
+  C:0A1BH         LINE#         141
+  C:0A1DH         LINE#         142
+  -------         ENDPROC       INITINTER0
+  -------         PROC          INTER0
+  -------         DO            
+  X:0029H         SYMBOL        time
+  X:002DH         SYMBOL        before
+  X:0031H         SYMBOL        flag
+  X:0019H         SYMBOL        now
+  -------         ENDDO         
+  C:04A3H         LINE#         143
+  C:04C0H         LINE#         149
+  C:04C9H         LINE#         150
+  C:0503H         LINE#         151
+  C:0503H         LINE#         154
+  C:0509H         LINE#         156
+  C:0509H         LINE#         157
+  C:051DH         LINE#         158
+  C:0531H         LINE#         159
+  -------         ENDPROC       INTER0
+  -------         PROC          GET_BLACK_LINE_CNT
+  C:0A1EH         LINE#         160
+  C:0A1EH         LINE#         161
+  C:0A1EH         LINE#         162
+  C:0A23H         LINE#         163
+  -------         ENDPROC       GET_BLACK_LINE_CNT
+  -------         ENDMOD        SENSOR
+
+  -------         MODULE        TIMER
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:09C7H         PUBLIC        clock
+  C:08DBH         PUBLIC        _sleep
+  C:088AH         SYMBOL        timer
+  C:09D6H         PUBLIC        initTimer
+  B:00A8H.3       PUBLIC        ET1
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  X:0037H         SYMBOL        _TimerClock
+  B:0088H.6       PUBLIC        TR1
+  -------         PROC          CLOCK
+  C:09C7H         LINE#         5
+  C:09C7H         LINE#         6
+  C:09C7H         LINE#         7
+  C:09D5H         LINE#         8
+  -------         ENDPROC       CLOCK
+  -------         PROC          _SLEEP
+  X:0021H         SYMBOL        time
+  -------         DO            
+  X:0025H         SYMBOL        start
+  -------         ENDDO         
+  C:08DBH         LINE#         9
+  C:08E1H         LINE#         10
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/27/2016  21:30:48  PAGE 13
+
+
+  C:08E1H         LINE#         11
+  C:08EAH         LINE#         12
+  C:091CH         LINE#         13
+  -------         ENDPROC       _SLEEP
+  -------         PROC          INITTIMER
+  C:09D6H         LINE#         14
+  C:09D6H         LINE#         15
+  C:09D6H         LINE#         18
+  C:09D9H         LINE#         19
+  C:09DCH         LINE#         20
+  C:09DEH         LINE#         21
+  C:09E0H         LINE#         22
+  -------         ENDPROC       INITTIMER
+  -------         PROC          TIMER
+  C:088AH         LINE#         25
+  C:08A1H         LINE#         27
+  C:08A4H         LINE#         28
+  C:08A7H         LINE#         29
+  C:08C6H         LINE#         30
+  -------         ENDPROC       TIMER
+  -------         ENDMOD        TIMER
+
+  -------         MODULE        ?C?IMUL
+  C:03D6H         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
+  -------         MODULE        ?C?UIDIV
+  C:03E8H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?SIDIV
+  C:043DH         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?ULCMP
+  C:0473H         PUBLIC        ?C?ULCMP
+  -------         ENDMOD        ?C?ULCMP
+
+  -------         MODULE        ?C?ULSHR
+  C:0484H         PUBLIC        ?C?ULSHR
+  -------         ENDMOD        ?C?ULSHR
+
+  -------         MODULE        ?C?LSTXDATA
+  C:0497H         PUBLIC        ?C?LSTXDATA
+  -------         ENDMOD        ?C?LSTXDATA
+
+Program Size: data=9.0 xdata=59 code=2589
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

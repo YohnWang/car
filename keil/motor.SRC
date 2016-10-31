@@ -1,0 +1,583 @@
+; .\motor.SRC generated from: ..\motor.c
+; COMPILER INVOKED BY:
+;        C:\Keil\C51\BIN\C51.EXE ..\motor.c BROWSE DEBUG OBJECTEXTEND SRC(.\motor.SRC)
+
+$NOMOD51
+
+NAME	MOTOR
+
+P0	DATA	080H
+P1	DATA	090H
+P2	DATA	0A0H
+P3	DATA	0B0H
+T0	BIT	0B0H.4
+AC	BIT	0D0H.6
+T1	BIT	0B0H.5
+EA	BIT	0A8H.7
+IE	DATA	0A8H
+RD	BIT	0B0H.7
+ES	BIT	0A8H.4
+IP	DATA	0B8H
+RI	BIT	098H.0
+INT0	BIT	0B0H.2
+CY	BIT	0D0H.7
+TI	BIT	098H.1
+INT1	BIT	0B0H.3
+motor_right_in1	BIT	090H.4
+motor_right_in2	BIT	090H.5
+PS	BIT	0B8H.4
+SP	DATA	081H
+OV	BIT	0D0H.2
+WR	BIT	0B0H.6
+motor_left_in1	BIT	090H.2
+motor_left_in2	BIT	090H.3
+SBUF	DATA	099H
+PCON	DATA	087H
+SCON	DATA	098H
+TMOD	DATA	089H
+TCON	DATA	088H
+motor_right	BIT	090H.1
+IE0	BIT	088H.1
+IE1	BIT	088H.3
+B	DATA	0F0H
+motor_left	BIT	090H.0
+ACC	DATA	0E0H
+ET0	BIT	0A8H.1
+ET1	BIT	0A8H.3
+TF0	BIT	088H.5
+TF1	BIT	088H.7
+RB8	BIT	098H.2
+TH0	DATA	08CH
+EX0	BIT	0A8H.0
+IT0	BIT	088H.0
+TH1	DATA	08DH
+TB8	BIT	098H.3
+EX1	BIT	0A8H.2
+IT1	BIT	088H.2
+P	BIT	0D0H.0
+SM0	BIT	098H.7
+TL0	DATA	08AH
+SM1	BIT	098H.6
+TL1	DATA	08BH
+SM2	BIT	098H.5
+PT0	BIT	0B8H.1
+PT1	BIT	0B8H.3
+RS0	BIT	0D0H.3
+TR0	BIT	088H.4
+RS1	BIT	0D0H.4
+TR1	BIT	088H.6
+PX0	BIT	0B8H.0
+PX1	BIT	0B8H.2
+DPH	DATA	083H
+DPL	DATA	082H
+REN	BIT	098H.4
+RXD	BIT	0B0H.0
+TXD	BIT	0B0H.1
+F0	BIT	0D0H.5
+PSW	DATA	0D0H
+?PR?init_motor?MOTOR SEGMENT CODE 
+?PR?_set_forward_or_backward?MOTOR       SEGMENT CODE 
+?PR?_set_velocity?MOTOR                  SEGMENT CODE 
+?PR?_delayms?MOTOR   SEGMENT CODE 
+?PR?_swerve?MOTOR    SEGMENT CODE 
+?PR?motor_driver?MOTOR                   SEGMENT CODE 
+?DT?MOTOR            SEGMENT DATA 
+?C_INITSEG           SEGMENT CODE 
+	PUBLIC	_swerve
+	PUBLIC	_delayms
+	PUBLIC	_set_velocity
+	PUBLIC	_set_forward_or_backward
+	PUBLIC	init_motor
+
+	RSEG  ?DT?MOTOR
+ left_times?551:   DS   1
+
+	RSEG  ?DT?MOTOR
+right_times?552:   DS   1
+  velocity_left:   DS   1
+ velocity_right:   DS   1
+
+	RSEG  ?C_INITSEG
+	DB	001H
+	DB	velocity_left
+	DB	000H
+
+	DB	001H
+	DB	velocity_right
+	DB	000H
+
+	DB	001H
+	DB	left_times?551
+	DB	000H
+
+	DB	001H
+	DB	right_times?552
+	DB	000H
+
+; #include<reg51.h>
+; 
+; 
+; static signed char velocity_left=0;
+; static signed char velocity_right=0;
+; 
+; sbit motor_left=P1^0; //need changing
+; sbit motor_right=P1^1;//need changing
+; sbit motor_left_in1=P1^2;
+; sbit motor_left_in2=P1^3;
+; sbit motor_right_in1=P1^4;
+; sbit motor_right_in2=P1^5;
+; 
+; 
+; #define CYCLE_DELAY 230
+; #define CYCLE_WHOLE 65536
+; #define TIME_INC    1
+; #define RUN     1
+; #define STOP    0
+; #define STAY   (-1)
+; #define LEFT    0
+; #define RIGHT   1
+; #define FORWARD 1
+; #define BACKWARD 0
+; 
+; void init_motor()
+
+	RSEG  ?PR?init_motor?MOTOR
+init_motor:
+			; SOURCE LINE # 26
+; {
+			; SOURCE LINE # 27
+;     TMOD=1;
+			; SOURCE LINE # 28
+	MOV  	TMOD,#01H
+;     PT0=1;
+			; SOURCE LINE # 29
+	SETB 	PT0
+;     TH0=(CYCLE_WHOLE-CYCLE_DELAY)/256;
+			; SOURCE LINE # 30
+	MOV  	TH0,#0FFH
+;     TL0=(CYCLE_WHOLE-CYCLE_DELAY)%256;
+			; SOURCE LINE # 31
+	MOV  	TL0,#01AH
+;     ET0=1;
+			; SOURCE LINE # 32
+	SETB 	ET0
+;     TR0=1;
+			; SOURCE LINE # 33
+	SETB 	TR0
+; }
+			; SOURCE LINE # 34
+	RET  	
+; END OF init_motor
+
+; #if 0
+; void set_forward_or_backward(unsigned char left_or_right,unsigned char forward_or_backward)
+; {
+;     if(left_or_right==LEFT)
+;     {
+;         if(forward_or_backward==FORWARD)
+;         {
+;             motor_left_in1=1;
+;             motor_left_in2=0;
+;         }
+;         else if(forward_or_backward==BACKWARD)
+;         {
+;             motor_left_in1=0;
+;             motor_left_in2=1;
+;         }
+;         else//exception
+;         {
+; 
+;         }
+;     }
+;     else if(left_or_right==RIGHT)
+;     {
+;         if(forward_or_backward==FORWARD)
+;         {
+;             motor_right_in1=1;
+;             motor_right_in2=0;
+;         }
+;         else if(forward_or_backward==BACKWARD)
+;         {
+;             motor_right_in1=0;
+;             motor_right_in2=1;
+;         }
+;         else//exception
+;         {
+; 
+;         }
+;     }
+;     else //exception
+;     {
+; 
+;     }
+; }
+; #endif // 0
+; void set_forward_or_backward(unsigned char left,unsigned char right)
+
+	RSEG  ?PR?_set_forward_or_backward?MOTOR
+_set_forward_or_backward:
+			; SOURCE LINE # 78
+;---- Variable 'right?141' assigned to Register 'R5' ----
+;---- Variable 'left?140' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 79
+;     if(left==FORWARD)
+			; SOURCE LINE # 80
+	CJNE 	R7,#01H,?C0002
+;     {
+			; SOURCE LINE # 81
+;         motor_left_in1=1;
+			; SOURCE LINE # 82
+	SETB 	motor_left_in1
+;         motor_left_in2=0;
+			; SOURCE LINE # 83
+	CLR  	motor_left_in2
+;     }
+			; SOURCE LINE # 84
+	SJMP 	?C0003
+?C0002:
+;     else if(left==BACKWARD)
+			; SOURCE LINE # 85
+	MOV  	A,R7
+	JNZ  	?C0003
+;     {
+			; SOURCE LINE # 86
+;         motor_left_in1=0;
+			; SOURCE LINE # 87
+	CLR  	motor_left_in1
+;         motor_left_in2=1;
+			; SOURCE LINE # 88
+	SETB 	motor_left_in2
+;     }
+			; SOURCE LINE # 89
+;     else
+;     {
+			; SOURCE LINE # 91
+; 
+;     }
+			; SOURCE LINE # 93
+?C0003:
+; 
+;     if(right==FORWARD)
+			; SOURCE LINE # 95
+	CJNE 	R5,#01H,?C0006
+;     {
+			; SOURCE LINE # 96
+;         motor_right_in1=1;
+			; SOURCE LINE # 97
+	SETB 	motor_right_in1
+;         motor_right_in2=0;
+			; SOURCE LINE # 98
+	CLR  	motor_right_in2
+;     }
+			; SOURCE LINE # 99
+	RET  	
+?C0006:
+;     else if(right==BACKWARD)
+			; SOURCE LINE # 100
+	MOV  	A,R5
+	JNZ  	?C0010
+;     {
+			; SOURCE LINE # 101
+;         motor_right_in1=0;
+			; SOURCE LINE # 102
+	CLR  	motor_right_in1
+;         motor_right_in2=1;
+			; SOURCE LINE # 103
+	SETB 	motor_right_in2
+;     }
+			; SOURCE LINE # 104
+;     else
+;     {
+			; SOURCE LINE # 106
+; 
+;     }
+			; SOURCE LINE # 108
+; }
+			; SOURCE LINE # 109
+?C0010:
+	RET  	
+; END OF _set_forward_or_backward
+
+; 
+; 
+; void set_velocity(signed char left,signed char right)
+
+	RSEG  ?PR?_set_velocity?MOTOR
+_set_velocity:
+			; SOURCE LINE # 112
+;---- Variable 'left?242' assigned to Register 'R7' ----
+;---- Variable 'right?243' assigned to Register 'R5' ----
+; {
+			; SOURCE LINE # 113
+;     if(left!=STAY)
+			; SOURCE LINE # 114
+	MOV  	A,R7
+	CPL  	A
+	JZ   	?C0011
+;     {
+			; SOURCE LINE # 115
+;         velocity_left=left;
+			; SOURCE LINE # 116
+	MOV  	velocity_left,R7
+;     }
+			; SOURCE LINE # 117
+?C0011:
+;     if(left!=STAY)
+			; SOURCE LINE # 118
+	MOV  	A,R7
+	CPL  	A
+	JZ   	?C0013
+;     {
+			; SOURCE LINE # 119
+;         velocity_right=right;
+			; SOURCE LINE # 120
+	MOV  	velocity_right,R5
+;     }
+			; SOURCE LINE # 121
+; }
+			; SOURCE LINE # 122
+?C0013:
+	RET  	
+; END OF _set_velocity
+
+; void delayms(unsigned char t)
+
+	RSEG  ?PR?_delayms?MOTOR
+_delayms:
+	USING	0
+			; SOURCE LINE # 123
+;---- Variable 'i?345' assigned to Register 'R6' ----
+;---- Variable 't?344' assigned to Register 'R7' ----
+; {
+			; SOURCE LINE # 124
+;     unsigned char i,j;
+;     for(;--t;)
+			; SOURCE LINE # 126
+?C0014:
+	DEC  	R7
+	MOV  	A,R7
+	JZ   	?C0022
+;         for(i=30;i;--i)
+			; SOURCE LINE # 127
+	MOV  	R6,#01EH
+?C0016:
+	MOV  	A,R6
+	JZ   	?C0014
+;             for(j=30;j;--j){}
+			; SOURCE LINE # 128
+;---- Variable 'j?346' assigned to Register 'R5' ----
+	MOV  	R5,#01EH
+?C0019:
+	DJNZ 	R5,?C0019
+?C0018:
+	DEC  	R6
+	SJMP 	?C0016
+; }
+			; SOURCE LINE # 129
+?C0022:
+	RET  	
+; END OF _delayms
+
+; void swerve(unsigned char direction,unsigned char angle)
+
+	RSEG  ?PR?_swerve?MOTOR
+_swerve:
+	USING	0
+			; SOURCE LINE # 130
+;---- Variable 'direction?447' assigned to Register 'R6' ----
+	MOV  	R6,AR7
+;---- Variable 'angle?448' assigned to Register 'R4' ----
+	MOV  	R4,AR5
+; {
+			; SOURCE LINE # 131
+;     signed char tmp_left,tmp_right;
+;     tmp_left=velocity_left;
+			; SOURCE LINE # 133
+;---- Variable 'tmp_left?449' assigned to Register 'R3' ----
+	MOV  	R3,velocity_left
+;     tmp_right=velocity_right;
+			; SOURCE LINE # 134
+;---- Variable 'tmp_right?450' assigned to Register 'R2' ----
+	MOV  	R2,velocity_right
+;     //set_velocity(0,0);
+;     if(direction==LEFT)
+			; SOURCE LINE # 136
+	MOV  	A,R6
+	JNZ  	?C0023
+;     {
+			; SOURCE LINE # 137
+;         //set_velocity(velocity_left/4,velocity_right);
+;         set_velocity(0,velocity_right);
+			; SOURCE LINE # 139
+	MOV  	R5,velocity_right
+	MOV  	R7,A
+;     }
+			; SOURCE LINE # 140
+	SJMP 	?C0037
+?C0023:
+;     else if(direction==RIGHT)
+			; SOURCE LINE # 141
+	CJNE 	R6,#01H,?C0025
+;     {
+			; SOURCE LINE # 142
+;         //set_velocity(velocity_left,velocity_right/4);
+;         set_velocity(velocity_left,0);
+			; SOURCE LINE # 144
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,velocity_left
+?C0037:
+	LCALL	_set_velocity
+;     }
+			; SOURCE LINE # 145
+	SJMP 	?C0024
+?C0025:
+;     else //if direction is wrong,it will happen
+;     {
+			; SOURCE LINE # 147
+;         set_velocity(0,0);
+			; SOURCE LINE # 148
+	CLR  	A
+	MOV  	R5,A
+	MOV  	R7,A
+	LCALL	_set_velocity
+;         for(;;){}
+			; SOURCE LINE # 149
+?C0027:
+	SJMP 	?C0027
+;     }
+			; SOURCE LINE # 150
+?C0024:
+;     delayms(angle);
+			; SOURCE LINE # 151
+	MOV  	R7,AR4
+	LCALL	_delayms
+;     velocity_left=tmp_left;
+			; SOURCE LINE # 152
+	MOV  	velocity_left,R3
+;     velocity_right=tmp_right;
+			; SOURCE LINE # 153
+	MOV  	velocity_right,R2
+; }
+			; SOURCE LINE # 154
+	RET  	
+; END OF _swerve
+
+CSEG	AT	0000BH
+	LJMP	motor_driver
+
+; 
+; static void motor_driver() interrupt 1
+
+	RSEG  ?PR?motor_driver?MOTOR
+	USING	0
+motor_driver:
+	PUSH 	ACC
+	PUSH 	PSW
+	MOV  	PSW,#00H
+	PUSH 	AR0
+	USING	0
+			; SOURCE LINE # 156
+; {
+;     static signed char left_times=0;
+;     static signed char right_times=0;
+;     TH0=(CYCLE_WHOLE-CYCLE_DELAY)/256;
+			; SOURCE LINE # 160
+	MOV  	TH0,#0FFH
+;     TL0=(CYCLE_WHOLE-CYCLE_DELAY)%256;
+			; SOURCE LINE # 161
+	MOV  	TL0,#01AH
+;     ++left_times;
+			; SOURCE LINE # 162
+	INC  	left_times?551
+;     ++right_times;
+			; SOURCE LINE # 163
+	INC  	right_times?552
+;     if(left_times>99)
+			; SOURCE LINE # 164
+	SETB 	C
+	MOV  	A,left_times?551
+	XRL  	A,#080H
+	SUBB 	A,#0E3H
+	JC   	?C0030
+;         left_times=0;
+			; SOURCE LINE # 165
+	MOV  	left_times?551,#00H
+?C0030:
+;     if(right_times>99)
+			; SOURCE LINE # 166
+	SETB 	C
+	MOV  	A,right_times?552
+	XRL  	A,#080H
+	SUBB 	A,#0E3H
+	JC   	?C0031
+;         right_times=0;
+			; SOURCE LINE # 167
+	MOV  	right_times?552,#00H
+?C0031:
+;     if(left_times<velocity_left)
+			; SOURCE LINE # 168
+	CLR  	C
+	MOV  	A,velocity_left
+	XRL  	A,#080H
+	MOV  	R0,A
+	MOV  	A,left_times?551
+	XRL  	A,#080H
+	SUBB 	A,R0
+	JNC  	?C0032
+;     {
+			; SOURCE LINE # 169
+;         motor_left=RUN;
+			; SOURCE LINE # 170
+	SETB 	motor_left
+;     }
+			; SOURCE LINE # 171
+	SJMP 	?C0033
+?C0032:
+;     else
+;     {
+			; SOURCE LINE # 173
+;         motor_left=STOP;
+			; SOURCE LINE # 174
+	CLR  	motor_left
+;     }
+			; SOURCE LINE # 175
+?C0033:
+;     if(right_times<velocity_right)
+			; SOURCE LINE # 176
+	CLR  	C
+	MOV  	A,velocity_right
+	XRL  	A,#080H
+	MOV  	R0,A
+	MOV  	A,right_times?552
+	XRL  	A,#080H
+	SUBB 	A,R0
+	JNC  	?C0034
+;     {
+			; SOURCE LINE # 177
+;         motor_right=RUN;
+			; SOURCE LINE # 178
+	SETB 	motor_right
+;     }
+			; SOURCE LINE # 179
+	SJMP 	?C0036
+?C0034:
+;     else
+;     {
+			; SOURCE LINE # 181
+;         motor_right=STOP;
+			; SOURCE LINE # 182
+	CLR  	motor_right
+;     }
+			; SOURCE LINE # 183
+; }
+			; SOURCE LINE # 184
+?C0036:
+	POP  	AR0
+	POP  	PSW
+	POP  	ACC
+	RETI 	
+; END OF motor_driver
+
+	END

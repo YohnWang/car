@@ -1,0 +1,6 @@
+"STARTUP.obj",
+".\main.obj",
+".\motor.obj",
+".\sensor.obj",
+".\timer.obj" 
+TO "design" 

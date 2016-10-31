@@ -1,0 +1,230 @@
+C51 COMPILER V9.01   MOTOR                                                                 10/16/2016 20:37:43 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MOTOR
+OBJECT MODULE PLACED IN .\motor.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\motor.c BROWSE DEBUG OBJECTEXTEND OBJECT(.\motor.obj)
+
+line level    source
+
+   1          #include<reg51.h>
+   2          
+   3          
+   4          static signed char velocity_left=0;
+   5          static signed char velocity_right=0;
+   6          
+   7          sbit motor_left=P1^0; //need changing
+   8          sbit motor_right=P1^1;//need changing
+   9          sbit motor_left_in1=P1^2;
+  10          sbit motor_left_in2=P1^3;
+  11          sbit motor_right_in1=P1^4;
+  12          sbit motor_right_in2=P1^5;
+  13          
+  14          sbit debug_flag=P2^0;
+  15          
+  16          #define CYCLE_DELAY 200
+  17          #define CYCLE_WHOLE 65536
+  18          #define TIME_INC    1
+  19          #define RUN     1
+  20          #define STOP    0
+  21          #define STAY   (-1)
+  22          #define LEFT    0
+  23          #define RIGHT   1
+  24          #define FORWARD 1
+  25          #define BACKWARD 0
+  26          
+  27          void init_motor()
+  28          {
+  29   1          //TMOD=1;
+  30   1          //PT0=1;
+  31   1          TH0=(CYCLE_WHOLE-CYCLE_DELAY)/256;
+  32   1          TL0=(CYCLE_WHOLE-CYCLE_DELAY)%256;
+  33   1          ET0=1;
+  34   1          TR0=1;
+  35   1      }
+  36          #if 0
+              void set_forward_or_backward(unsigned char left_or_right,unsigned char forward_or_backward)
+              {
+                  if(left_or_right==LEFT)
+                  {
+                      if(forward_or_backward==FORWARD)
+                      {
+                          motor_left_in1=1;
+                          motor_left_in2=0;
+                      }
+                      else if(forward_or_backward==BACKWARD)
+                      {
+                          motor_left_in1=0;
+                          motor_left_in2=1;
+                      }
+                      else//exception
+                      {
+              
+                      }
+                  }
+C51 COMPILER V9.01   MOTOR                                                                 10/16/2016 20:37:43 PAGE 2   
+
+                  else if(left_or_right==RIGHT)
+                  {
+                      if(forward_or_backward==FORWARD)
+                      {
+                          motor_right_in1=1;
+                          motor_right_in2=0;
+                      }
+                      else if(forward_or_backward==BACKWARD)
+                      {
+                          motor_right_in1=0;
+                          motor_right_in2=1;
+                      }
+                      else//exception
+                      {
+              
+                      }
+                  }
+                  else //exception
+                  {
+              
+                  }
+              }
+              #endif // 0
+  79          void set_forward_or_backward(unsigned char left,unsigned char right)
+  80          {
+  81   1          if(left==FORWARD)
+  82   1          {
+  83   2              motor_left_in1=1;
+  84   2              motor_left_in2=0;
+  85   2          }
+  86   1          else if(left==BACKWARD)
+  87   1          {
+  88   2              motor_left_in1=0;
+  89   2              motor_left_in2=1;
+  90   2          }
+  91   1          else
+  92   1          {
+  93   2      
+  94   2          }
+  95   1      
+  96   1          if(right==FORWARD)
+  97   1          {
+  98   2              motor_right_in1=1;
+  99   2              motor_right_in2=0;
+ 100   2          }
+ 101   1          else if(right==BACKWARD)
+ 102   1          {
+ 103   2              motor_right_in1=0;
+ 104   2              motor_right_in2=1;
+ 105   2          }
+ 106   1          else
+ 107   1          {
+ 108   2      
+ 109   2          }
+ 110   1      }
+ 111          
+ 112          
+ 113          void set_velocity(signed char left,signed char right)
+ 114          {
+ 115   1          if(debug_flag==0)
+ 116   1          {
+ 117   2              left/=2;
+C51 COMPILER V9.01   MOTOR                                                                 10/16/2016 20:37:43 PAGE 3   
+
+ 118   2              right/=2;
+ 119   2          }
+ 120   1          if(left!=STAY)
+ 121   1          {
+ 122   2              if(right>80)
+ 123   2                  velocity_left=(char)((int)left*3/4);
+ 124   2              else if(right>60)
+ 125   2                  velocity_left=(char)((int)left*4/5);
+ 126   2              else if(right>40)
+ 127   2                  velocity_left=(char)((int)left*7/8);
+ 128   2              else if(right>20)
+ 129   2                  velocity_left=(char)((int)left*9/10);
+ 130   2              else
+ 131   2                  velocity_left=left;
+ 132   2              //velocity_left=left;
+ 133   2          }
+ 134   1          if(left!=STAY)
+ 135   1          {
+ 136   2              velocity_right=right;
+ 137   2          }
+ 138   1      }
+ 139          /*
+ 140          void delayms(unsigned char t)
+ 141          {
+ 142              unsigned char i,j;
+ 143              for(;--t;)
+ 144                  for(i=30;i;--i)
+ 145                      for(j=30;j;--j){}
+ 146          }
+ 147          void swerve(unsigned char direction,unsigned char angle)
+ 148          {
+ 149              signed char tmp_left,tmp_right;
+ 150              tmp_left=velocity_left;
+ 151              tmp_right=velocity_right;
+ 152              //set_velocity(0,0);
+ 153              if(direction==LEFT)
+ 154              {
+ 155                  //set_velocity(velocity_left/4,velocity_right);
+ 156                  set_velocity(0,velocity_right);
+ 157              }
+ 158              else if(direction==RIGHT)
+ 159              {
+ 160                  //set_velocity(velocity_left,velocity_right/4);
+ 161                  set_velocity(velocity_left,0);
+ 162              }
+ 163              else //if direction is wrong,it will happen
+ 164              {
+ 165                  set_velocity(0,0);
+ 166                  for(;;){}
+ 167              }
+ 168              delayms(angle);
+ 169              velocity_left=tmp_left;
+ 170              velocity_right=tmp_right;
+ 171          }*/
+ 172          
+ 173          static void motor_driver() interrupt 1
+ 174          {
+ 175   1          static signed char left_times=0;
+ 176   1          static signed char right_times=0;
+ 177   1          TH0=(CYCLE_WHOLE-CYCLE_DELAY)/256;
+ 178   1          TL0=(CYCLE_WHOLE-CYCLE_DELAY)%256;
+ 179   1          ++left_times;
+C51 COMPILER V9.01   MOTOR                                                                 10/16/2016 20:37:43 PAGE 4   
+
+ 180   1          ++right_times;
+ 181   1          if(left_times>99)
+ 182   1              left_times=0;
+ 183   1          if(right_times>99)
+ 184   1              right_times=0;
+ 185   1          if(left_times<velocity_left)
+ 186   1          {
+ 187   2              motor_left=RUN;
+ 188   2          }
+ 189   1          else
+ 190   1          {
+ 191   2              motor_left=STOP;
+ 192   2          }
+ 193   1          if(right_times<velocity_right)
+ 194   1          {
+ 195   2              motor_right=RUN;
+ 196   2          }
+ 197   1          else
+ 198   1          {
+ 199   2              motor_right=STOP;
+ 200   2          }
+ 201   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    265    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
