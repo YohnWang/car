@@ -4,12 +4,12 @@ typedef unsigned long clock_t;
 
 extern unsigned long clock();      //get the now time clock
 extern void initTimer();           //initialize timer
-extern void sleep(clock_t time);   //delay  µ¥Î»ms ¾«¶ÈÎª TIME_INC ms
+extern void sleep(clock_t time);   //delay  å•ä½ms ç²¾åº¦ä¸º TIME_INC ms
 
-//µÚÒ»¸ö²ÎÊıÎªÃ¿´Î²úÉúÊ±ÖÓÖĞ¶ÏµÄ»úÆ÷ÖÜÆÚÊı
-//µÚ¶ş¸ö²ÎÊıÊÇÊ±ÖÓ×î´óµÄ»úÆ÷ÖÜÆÚÊı
-//µÚÈı¸ö²ÎÊıÊÇÃ»·¢ÉúÒ»´ÎÖĞ¶ÏµÄÊ±¼ä¼ä¸ô µ¥Î»ms
-//²ÎÊıĞèÒª×Ô¼º¼ÆËã //ÏÂÁĞ²ÎÊıÎª12M¾§Õñ 12·ÖÆµ ÖĞ¶Ï¼ä¸ô1ms
+//ç¬¬ä¸€ä¸ªå‚æ•°ä¸ºæ¯æ¬¡äº§ç”Ÿæ—¶é’Ÿä¸­æ–­çš„æœºå™¨å‘¨æœŸæ•°
+//ç¬¬äºŒä¸ªå‚æ•°æ˜¯æ—¶é’Ÿæœ€å¤§çš„æœºå™¨å‘¨æœŸæ•°
+//ç¬¬ä¸‰ä¸ªå‚æ•°æ˜¯æ²¡å‘ç”Ÿä¸€æ¬¡ä¸­æ–­çš„æ—¶é—´é—´éš” å•ä½ms
+//å‚æ•°éœ€è¦è‡ªå·±è®¡ç®— //ä¸‹åˆ—å‚æ•°ä¸º24Mæ™¶æŒ¯ 12åˆ†é¢‘ ä¸­æ–­é—´éš”1ms
 #define CYCLE_DELAY 2000
 #define CYCLE_WHOLE 65536
 #define TIME_INC    1
